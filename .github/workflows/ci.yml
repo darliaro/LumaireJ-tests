@@ -1,0 +1,45 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [run-tests]
+
+jobs:
+  autotests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Test Repo
+        uses: actions/checkout@v4
+
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install Test Dependencies
+        run: pdm install
+
+      - name: Run Tests
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run: pdm run test
+
+      - name: Generate Allure Report
+        run: pdm run report
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: allure-report
