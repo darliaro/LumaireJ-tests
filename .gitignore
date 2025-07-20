@@ -6,9 +6,12 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
+*.log
 .env
 .env.*
 .venv/
+*.sqlite3
+*.db
 
 # PDM
 __pypackages__/
@@ -18,6 +21,43 @@ pdm.lock
 allure-results/
 allure-report/
 
-# OS
+# Test Artifacts
+htmlcov/
+coverage.xml
+.cache/
+.tox/
+pytest_cache/
+reports/
+test-results/
+output/
+
+# OS Generated
 .DS_Store
 Thumbs.db
+Icon?
+ehthumbs.db
+Desktop.ini
+
+# Playwright
+playwright-report/
+trace.zip
+videos/
+screenshots/
+
+# Logs and Temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.orig
+
+# Miscellaneous
+*.tar
+*.tar.gz
+*.zip
+*.7z
+*.rar
+*.tgz
+*.log.*
+*.coverage
