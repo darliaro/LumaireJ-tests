@@ -1,0 +1,66 @@
+[project]
+name = "LumaireJ-Tests"
+version = "0.1.0"
+description = "API & E2E tests for LumaireJ"
+authors = [
+    {name = "Darli Ro", email = "glicerinn@gmail.com"},
+]
+dependencies = ["pre-commit>=4.2.0", "pytest>=8.4.1", "requests>=2.32.4", "allure-pytest>=2.14.3", "ruff>=0.12.4", "pydantic>=2.11.7", "dotenv>=0.9.9", "typing>=3.7.4.3"]
+requires-python = "==3.13.*"
+readme = "README.md"
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+test = "pytest -sv"
+test-allure = "pytest -sv --alluredir=allure-results"
+report = "allure generate allure-results --clean -o allure-report"
+open_report = "allure open allure-report"
+lint = "ruff check tests/"
+fix = "ruff check tests/ --fix"
+format = "ruff format tests/"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-sv"
+markers = [
+    "api: API integration suite",
+    "e2e: E2E scenario",
+    "journal: Journal functionality tests"
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+indent-width = 4
+exclude = ["__pypackages__", ".venv", "migrations"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "SIM",  # flake8-simplify
+]
+ignore = [
+    "E501",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "ruff>=0.12.3",
+    "mypy>=1.17.0",
+]
