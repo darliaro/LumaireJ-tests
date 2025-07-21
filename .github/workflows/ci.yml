@@ -33,12 +33,15 @@ jobs:
           nohup pdm run dev &
           sleep 5
 
-      - name: Wait for API docs to be available
+      - name: Wait for API ready
         run: |
-          until curl -sSf http://localhost:8000/api/docs; do
-            echo "Waiting for Swagger UI…"
-            sleep 2
-          done
+          echo "Waiting up to 60 seconds for server at http://localhost:8000/api/docs ..."
+          timeout 60 bash -c '
+            until curl -sSf http://localhost:8000/api/docs; do
+              echo "$(date +"%H:%M:%S") still waiting…"
+              sleep 2
+            done
+          ' || ( echo "ERROR: Server did not start within 60s"; cat nohup.out; exit 1 )
 
       - name: Install test deps
         working-directory: tests
