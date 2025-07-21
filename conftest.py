@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def base_url() -> str:
-    """Returns the resolved base URL from pytest CLI options"""
-    return os.getenv("BASE_URL")
+    """Return the API base URL from the environment."""
+    url = os.getenv("BASE_URL")
+    return url
