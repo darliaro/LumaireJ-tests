@@ -18,18 +18,29 @@ jobs:
           repository: ${{ github.repository_owner }}/LumaireJ
           path: app
 
+      - name: Setup PDM for SUT
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install SUT deps
+        working-directory: app
+        run: pdm install
+
       - name: Start SUT (without Docker)
         working-directory: app
         run: |
           nohup pdm run dev &
           sleep 5
 
-      - name: Setup PDM
-        uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: '3.13'
+      - name: Wait for API docs to be available
+        run: |
+          until curl -sSf http://localhost:8000/api/docs; do
+            echo "Waiting for Swagger UI…"
+            sleep 2
+          done
 
-      - name: Install deps
+      - name: Install test deps
         working-directory: tests
         run: pdm install -G dev
 
