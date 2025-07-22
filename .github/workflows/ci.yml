@@ -48,6 +48,22 @@ jobs:
         working-directory: tests
         run: pdm install -G dev
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - run: java HelloWorldApp.java
+
+      - name: Install Allure CLI
+        run: |
+          mkdir -p $HOME/.allure
+          wget \
+            https://github.com/allure-framework/allure2/releases/download/2.34.1/allure-2.34.1.tgz \
+            -O allure.tgz
+          tar -xzf allure.tgz -C $HOME/.allure
+          echo "$HOME/.allure/allure-2.34.1/bin" >> $GITHUB_PATH
+
       - name: Run tests
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
