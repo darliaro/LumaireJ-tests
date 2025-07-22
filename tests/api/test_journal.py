@@ -1,17 +1,14 @@
 import pytest
-import requests
 
+from clients.api_client import APIClient
 from schemas.journal import JournalEntryResponse
 
 
 @pytest.mark.api
 @pytest.mark.journal
 def test_create_journal_entry(base_url: str) -> None:
-    """Draft-Test for POST /journal"""
-    payload = {"content": "Test content", "mood": "reflective"}
-
-    response = requests.post(f"{base_url}/api/v1/journal", json=payload)
-    assert response.status_code == 201
-
-    parsed = JournalEntryResponse.model_validate(response.json())
-    assert parsed.content == payload["content"]
+    """Test creation of a journal entry."""
+    client = APIClient(base_url)
+    result = client.create_journal_entry("Test content")
+    entry = JournalEntryResponse.model_validate(result)
+    assert entry.content == "Test content"

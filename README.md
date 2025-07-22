@@ -18,13 +18,15 @@ and is designed to run independently via **GitHub Actions dispatch workflow** fr
 
 - [ ] Install [Python 3.13+](https://www.python.org/downloads/)
 - [ ] Install [PDM](https://pdm-project.org/latest/#recommended-installation-method)
-- [ ] Install dependencies:
-      `pdm install`
+- [ ] Install dev-dependencies:
+`pdm install -G :all`
 - [ ] Install pre-commit hooks:
-      `pdm run pre-commit install
+`pdm run pre-commit install`
 - [ ] Set up local environment:
-      `cp .env.template .env`
+`cp .env.template .env`
 - [ ] Install [Allure CLI](https://docs.qameta.io/allure/#_installing_a_commandline)
+
+> All project dependencies must be added to the `dev` group. Use the alias `pdm-dev <package>` or run `pdm add -G dev <package>` manually.
 
 ---
 

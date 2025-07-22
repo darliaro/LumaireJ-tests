@@ -2,15 +2,15 @@
 name = "LumaireJ-Tests"
 version = "0.1.0"
 description = "API & E2E tests for LumaireJ"
-authors = [
-    {name = "Darli Ro", email = "glicerinn@gmail.com"},
-]
-dependencies = ["pre-commit>=4.2.0", "pytest>=8.4.1", "requests>=2.32.4", "allure-pytest>=2.14.3", "ruff>=0.12.4", "pydantic>=2.11.7", "dotenv>=0.9.9", "typing>=3.7.4.3"]
+authors = [{ name = "Darli Ro", email = "glicerinn@gmail.com" }]
 requires-python = "==3.13.*"
 readme = "README.md"
 
 [tool.pdm]
 distribution = false
+
+[tool.pdm.metadata]
+note = "Use alias 'pdm-dev' to install all dependencies to [dev] group only."
 
 [tool.pdm.scripts]
 test = "pytest -sv"
@@ -24,11 +24,13 @@ format = "ruff format tests/"
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
-addopts = "-sv"
+addopts = "-sv --alluredir=allure-results --cov=tests --cov-report=xml"
 markers = [
-    "api: API integration suite",
+    "smoke: smoke tests",
+    "regression: resression tests",
+    "api: API suite",
     "e2e: E2E scenario",
-    "journal: Journal functionality tests"
+    "journal: journal functionality tests"
 ]
 
 [tool.ruff]
@@ -38,29 +40,23 @@ indent-width = 4
 exclude = ["__pypackages__", ".venv", "migrations"]
 
 [tool.ruff.lint]
-select = [
-    "E",    # pycodestyle errors
-    "F",    # pyflakes
-    "I",    # isort
-    "N",    # pep8-naming
-    "UP",   # pyupgrade
-    "B",    # flake8-bugbear
-    "C4",   # flake8-comprehensions
-    "SIM",  # flake8-simplify
-]
-ignore = [
-    "E501",
-]
+select = ["E", "F", "I", "N", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
+
 [dependency-groups]
 dev = [
     "pre-commit>=4.2.0",
     "pytest>=8.4.1",
     "pytest-cov>=6.2.1",
     "ruff>=0.12.3",
-    "mypy>=1.17.0",
+    "requests>=2.32.4",
+    "allure-pytest>=2.14.3",
+    "pydantic>=2.11.7",
+    "dotenv>=0.9.9",
+    "typing>=3.7.4.3"
 ]
