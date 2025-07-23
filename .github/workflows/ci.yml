@@ -8,7 +8,7 @@ on:
     types: [run-tests]
 
 concurrency:
-  group: e2e-tests-${{ github.ref }}
+  group: api-e2e-tests-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -96,3 +96,30 @@ jobs:
         with:
           name: allure-report
           path: allure-report
+
+  report-status:
+    name: Report status back to main repo
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Create or update check run in main repo
+        if: github.event_name == 'repository_dispatch'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_FOR_MAIN_REPO }}
+          script: |
+            const result = needs.test.result === 'success' ? 'success' : 'failure';
+            await github.checks.create({
+              owner: 'darliaro',
+              repo: 'LumaireJ',
+              name: 'API & E2E Tests',
+              head_sha: '${{ github.event.client_payload.sha }}',
+              status: 'completed',
+              conclusion: result,
+              output: {
+                title: `API & E2E Tests ${result}`,
+                summary: result === 'success'
+                  ? '✅ All tests passed'
+                  : '❌ Some tests failed'
+              }
+            });
