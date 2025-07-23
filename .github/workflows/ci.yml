@@ -101,9 +101,9 @@ jobs:
     name: Report status back to main repo
     runs-on: ubuntu-latest
     needs: test
+    if: ${{ github.event_name == 'repository_dispatch' }}
     steps:
       - name: Create or update check run in main repo
-        if: github.event_name == 'repository_dispatch'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.PAT_FOR_MAIN_REPO }}
