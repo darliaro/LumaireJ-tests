@@ -105,7 +105,6 @@ jobs:
     if: ${{ github.event_name == 'repository_dispatch' }}
 
     env:
-      PAT: ${{ secrets.PAT_FOR_MAIN_REPO }}
       TEST_RESULT: ${{ needs.test.result }}
       HEAD_SHA: ${{ github.event.client_payload.sha }}
 
@@ -113,11 +112,11 @@ jobs:
       - name: Create or update check run in main repo
         uses: actions/github-script@v7
         with:
-          github-token: ${{ env.PAT }}
+          github-token: ${{ secrets.PAT_FOR_MAIN_REPO }}
           script: |
             const result = process.env.TEST_RESULT;
-            const headSha = context.payload.client_payload.sha;
-            await github.checks.create({
+            const headSha = process.env.HEAD_SHA;
+            await github.rest.checks.create({
               owner: 'darliaro',
               repo: 'LumaireJ',
               name: 'API & E2E Tests',
