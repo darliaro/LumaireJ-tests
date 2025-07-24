@@ -101,32 +101,24 @@ jobs:
     name: Report status back to main repo
     runs-on: ubuntu-latest
     needs: test
-
     if: ${{ github.event_name == 'repository_dispatch' }}
-
     env:
       TEST_RESULT: ${{ needs.test.result }}
-      HEAD_SHA: ${{ github.event.client_payload.sha }}
-
+      HEAD_SHA:  ${{ github.event.client_payload.sha }}
     steps:
-      - name: Create or update check run in main repo
+      - name: Post commit status back to LumaireJ
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.PAT_FOR_MAIN_REPO }}
           script: |
-            const result = process.env.TEST_RESULT;
-            const headSha = process.env.HEAD_SHA;
-            await github.rest.checks.create({
+            const state = process.env.TEST_RESULT === 'success' ? 'success' : 'failure';
+            await github.rest.repos.createCommitStatus({
               owner: 'darliaro',
               repo: 'LumaireJ',
-              name: 'API & E2E Tests',
-              head_sha: headSha,
-              status: 'completed',
-              conclusion: result,
-              output: {
-                title: `API & E2E Tests ${result}`,
-                summary: result === 'success'
-                  ? '✅ All tests passed'
-                  : '❌ Some tests failed'
-              }
+              sha: process.env.HEAD_SHA,
+              state,
+              context: 'API & E2E Tests',
+              description: state === 'success'
+                ? '✅ All API/E2E tests passed'
+                : '❌ Some API/E2E tests failed'
             });
