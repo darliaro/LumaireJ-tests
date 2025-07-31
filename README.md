@@ -18,12 +18,18 @@ and is designed to run independently via **GitHub Actions dispatch workflow** fr
 
 - [ ] Install [Python 3.13+](https://www.python.org/downloads/)
 - [ ] Install [PDM](https://pdm-project.org/latest/#recommended-installation-method)
-- [ ] Install dev-dependencies:
-`pdm install -G :all`
+- [ ] Install Dev-Pytest dependencies:
+   ```bash
+   pdm install -G dev
+- [ ]  Install Playwright and E2E dependencies:
+   ```bash
+   pdm install -G e2e
 - [ ] Install pre-commit hooks:
-`pdm run pre-commit install`
+  ```bash
+  pdm run pre-commit install
 - [ ] Set up local environment:
-`cp .env.template .env`
+   ```bash
+  cp .env.template .env
 - [ ] Install [Allure CLI](https://docs.qameta.io/allure/#_installing_a_commandline)
 
 > All project dependencies must be added to the `dev` group. Use the alias `pdm-dev <package>` or run `pdm add -G dev <package>` manually.
@@ -33,23 +39,28 @@ and is designed to run independently via **GitHub Actions dispatch workflow** fr
 ### Running API Tests Locally
 
 - Run all tests:
-  `pdm run pytest -sv tests/api/`
+   ```bash
+  pdm run pytest -sv tests/api/
 
 - Custom target (e.g., dev/stage):
-  `pdm run pytest --base-url=http://localhost:8000`
+   ```bash
+  pdm run pytest --base-url=http://localhost:8000
 
 - Run with Allure results:
-  `pdm run pytest --alluredir=allure-results`
+   ```bash
+  pdm run pytest --alluredir=allure-results
 
 ---
 
 ### Allure Report Setup
 
 - Generate local report:
-  `allure generate allure-results --clean -o allure-report`
+   ```bash
+  allure generate allure-results --clean -o allure-report
 
 - Open in browser:
-  `allure open allure-report`
+   ```bash
+  allure open allure-report
 
 > You can also configure CI to upload Allure artifacts after each run.
 
@@ -74,10 +85,12 @@ Tests are triggered automatically by the [main backend repo](https://github.com/
 ### Linting and Formatting ([ruff](https://github.com/astral-sh/ruff))
 
 - Check code quality:
-  `pdm run ruff check tests/`
+   ```bash
+  pdm lint
 
 - Auto-fix and format:
-  `pdm run ruff check tests/ --fix && pdm run ruff format tests/`
+   ```bash
+  pdm lint --fix && pdm format
 
 ---
 
