@@ -18,16 +18,13 @@ and is designed to run independently via **GitHub Actions dispatch workflow** fr
 
 - [ ] Install [Python 3.13+](https://www.python.org/downloads/)
 - [ ] Install [PDM](https://pdm-project.org/latest/#recommended-installation-method)
-- [ ] Install Dev-Pytest dependencies:
+- [ ] Install Dependencies:
    ```bash
    pdm install -G dev
-- [ ]  Install Playwright and E2E dependencies:
-   ```bash
-   pdm install -G e2e
 - [ ] Install pre-commit hooks:
   ```bash
   pdm run pre-commit install
-- [ ] Set up local environment:
+- [ ] Set up a local environment:
    ```bash
   cp .env.template .env
 - [ ] Install [Allure CLI](https://docs.qameta.io/allure/#_installing_a_commandline)
