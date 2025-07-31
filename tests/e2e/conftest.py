@@ -1,3 +1,4 @@
+import os
 from collections.abc import Generator
 
 import pytest
@@ -13,7 +14,8 @@ def playwright_instance() -> Generator[Playwright]:
 @pytest.fixture(scope="function")
 def browser(playwright_instance: Playwright) -> Generator[Browser]:
     """Provide a Chromium browser instance in headed mode for debugging."""
-    browser = playwright_instance.chromium.launch(headless=False)
+    headless = os.getenv("CI", "false").lower() in ("1", "true")
+    browser = playwright_instance.chromium.launch(headless=headless)
     yield browser
     browser.close()
 
