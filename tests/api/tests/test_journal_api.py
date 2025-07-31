@@ -1,7 +1,7 @@
 import pytest
 
-from clients.api_client import APIClient
-from schemas.journal import JournalEntryResponse
+from tests.api.clients.api_client import APIClient
+from tests.api.schemas.journal_schema import JournalEntryResponse
 
 
 @pytest.mark.api
