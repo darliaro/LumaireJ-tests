@@ -7,6 +7,5 @@ load_dotenv()
 
 @pytest.fixture(scope="session")
 def base_url() -> str:
-    """Return the API base URL from the environment."""
-    url = os.getenv("BASE_URL")
-    return url
+    """Return the base root URL (host:port) for API and UI."""
+    return os.getenv("BASE_URL", "").rstrip("/")

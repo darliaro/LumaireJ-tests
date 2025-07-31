@@ -72,6 +72,10 @@ jobs:
         working-directory: tests
         run: pdm install -G dev
 
+      - name: Install Playwright browsers
+        working-directory: tests
+        run: pdm run playwright install chromium
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
