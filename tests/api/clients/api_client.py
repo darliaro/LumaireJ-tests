@@ -1,3 +1,5 @@
+"""Simple API client for endpoints."""
+
 from typing import Any
 
 import requests
@@ -10,9 +12,13 @@ class APIClient:
         """Initialize the API client."""
         self.base_url = base_url.rstrip("/")
 
-    def create_journal_entry(self, content: str) -> dict[str, Any]:
+    def create_journal_entry(self, content: str, mood: str = "") -> dict[str, Any]:
         """Create a new journal entry."""
         payload: dict[str, str] = {"content": content}
-        url: str = f"{self.base_url}/api/v1/journal"
+        if mood:
+            payload["mood"] = mood
+
+        url: str = f"{self.base_url}/journal"
         response = requests.post(url, json=payload)
+        response.raise_for_status()
         return response.json()
