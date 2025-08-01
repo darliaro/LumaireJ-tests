@@ -1,4 +1,5 @@
-import os
+"""Simple E2E test configuration."""
+
 from collections.abc import Generator
 
 import pytest
@@ -11,17 +12,19 @@ def playwright_instance() -> Generator[Playwright]:
     with sync_playwright() as p:
         yield p
 
+
 @pytest.fixture(scope="function")
-def browser(playwright_instance: Playwright) -> Generator[Browser]:
-    """Provide a Chromium browser instance in headed mode for debugging."""
-    headless = os.getenv("CI", "false").lower() in ("1", "true")
+def browser(playwright_instance: Playwright, is_ci: bool) -> Generator[Browser]:
+    """Provide a browser instance."""
+    headless = is_ci
     browser = playwright_instance.chromium.launch(headless=headless)
     yield browser
     browser.close()
 
+
 @pytest.fixture(scope="function")
 def page(browser: Browser) -> Generator[Page]:
-    """Provide a new page (tab) for each test."""
+    """Provide a new page for each test."""
     context = browser.new_context()
     page = context.new_page()
     yield page

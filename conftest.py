@@ -1,11 +1,15 @@
-import os
+"""Main test configuration with shared fixtures."""
 
-import pytest
-from dotenv import load_dotenv
+# Import shared fixtures
+from tests.shared.fixtures import api_base_url, base_url, is_ci, ui_base_url
+from tests.shared.test_data import journal_entry_data, journal_entry_without_mood
 
-load_dotenv()
-
-@pytest.fixture(scope="session")
-def base_url() -> str:
-    """Return the base root URL (host:port) for API and UI."""
-    return os.getenv("BASE_URL", "").rstrip("/")
+# Re-export shared fixtures for global access
+__all__ = [
+    'base_url',
+    'api_base_url',
+    'ui_base_url',
+    'is_ci',
+    'journal_entry_data',
+    'journal_entry_without_mood'
+]
