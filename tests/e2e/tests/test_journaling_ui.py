@@ -66,7 +66,8 @@ def test_journal_submission_success_message(
 
     # Verify success message appears
     response_text = journal.get_response_text()
-    assert "Entry created! ID:" in response_text
+    assert "Saved" in response_text
+    assert "id:" in response_text
 
 
 @pytest.mark.e2e
