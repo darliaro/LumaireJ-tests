@@ -35,7 +35,10 @@ class JournalPage:
     def expect_success(self) -> None:
         """Assert that a success message appears."""
         locator = self.page.locator(self.RESPONSE)
-        expect(locator).to_contain_text("Entry created! ID:", timeout=5000)
+        # New UI shows a multi-line message like:
+        # "Saved\nid: <num>\nat: <timestamp>"
+        expect(locator).to_contain_text("Saved", timeout=5000)
+        expect(locator).to_contain_text("id:")
 
     def get_response_text(self) -> str:
         """Get the text from the response element."""
