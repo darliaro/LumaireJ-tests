@@ -47,16 +47,16 @@ line-ending = "lf"
 
 [dependency-groups]
 dev = [
-    "pytest>=8.4.1",
-    "pytest-cov>=6.2.1",
-    "playwright>=1.54.0",
-    "pytest-playwright>=0.7.0",
-    "allure-pytest>=2.14.3",
-    "requests>=2.32.4",
-    "pre-commit>=4.2.0",
-    "ruff>=0.12.3",
-    "pydantic>=2.11.7",
-    "dotenv>=0.9.9",
-    "typing>=3.7.4.3",
-    "faker>=24.0.0"
+    "pytest",
+    "pytest-cov",
+    "playwright",
+    "pytest-playwright",
+    "allure-pytest",
+    "requests",
+    "pre-commit",
+    "ruff",
+    "pydantic",
+    "dotenv",
+    "typing",
+    "faker"
 ]

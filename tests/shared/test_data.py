@@ -6,8 +6,25 @@ from typing import Self
 import pytest
 from faker import Faker
 
-# Initialize Faker
-fake = Faker(["en_US", "ru_RU"])
+fake = Faker("en_US")
+
+MOOD_TAGS = [
+    ("😍", "In Love"),
+    ("🤩", "Excited"),
+    ("😊", "Happy"),
+    ("🤗", "Grateful"),
+    ("😌", "Calm"),
+    ("🙂", "Content"),
+    ("😐", "Neutral"),
+    ("🤔", "Thoughtful"),
+    ("😕", "Confused"),
+    ("😴", "Tired"),
+    ("😔", "Sad"),
+    ("😰", "Anxious"),
+    ("😤", "Frustrated"),
+    ("😠", "Angry"),
+    ("😭", "Devastated"),
+]
 
 
 @dataclass(slots=True)
@@ -20,11 +37,10 @@ class JournalEntryData:
     @classmethod
     def create_random(cls) -> Self:
         """Create random test data using Faker."""
+        emoji, label = fake.random_element(elements=MOOD_TAGS)
         return cls(
             content=fake.text(max_nb_chars=100),
-            mood=fake.random_element(
-                elements=("happy", "excited", "calm", "motivated", "grateful")
-            ),
+            mood=f"{emoji} {label}",
         )
 
     @classmethod
