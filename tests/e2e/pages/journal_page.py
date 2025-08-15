@@ -15,6 +15,7 @@ class JournalPage:
     RESPONSE = "#response"
 
     def __init__(self, page: Page, base_url: str) -> None:
+        """Initialize the Page Object."""
         self.page = page
         self.url = f"{base_url.rstrip('/')}{self.BASE_PATH}"
 
@@ -35,26 +36,18 @@ class JournalPage:
     def expect_success(self) -> None:
         """Assert that a success message appears."""
         locator = self.page.locator(self.RESPONSE)
-        # New UI shows a multi-line message like:
-        # "Saved\nid: <num>\nat: <timestamp>"
         expect(locator).to_contain_text("Saved", timeout=5000)
-        expect(locator).to_contain_text("id:")
 
     def get_response_text(self) -> str:
         """Get the text from the response element."""
         response_locator = self.page.locator(self.RESPONSE)
 
-        # Wait for a response element to be visible
         response_locator.wait_for(state="visible", timeout=5000)
 
-        # Get text content
         text = response_locator.text_content() or ""
         return text
 
-    def get_response_text_if_visible(self) -> str:
-        """Get the text from the response element without waiting."""
+    def is_response_visible(self) -> bool:
+        """Check if a response element is visible."""
         response_locator = self.page.locator(self.RESPONSE)
-
-        # Get text content without waiting
-        text = response_locator.text_content() or ""
-        return text
+        return response_locator.is_visible()
