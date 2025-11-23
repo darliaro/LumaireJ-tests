@@ -1,4 +1,4 @@
-[![Python 3.13+](https://img.shields.io/badge/Python-3.13+-black.svg)](https://www.python.org/)
+[![Python 3.14+](https://img.shields.io/badge/Python-3.14+-black.svg)](https://www.python.org/)
 [![PyTest](https://img.shields.io/badge/PyTest-blue?logo=pytest)](https://pytest.org/)
 [![Playwright](https://img.shields.io/badge/Playwright-lightblue?logo=playwright)](https://playwright.dev/)
 [![Requests](https://img.shields.io/badge/Requests-grey?logo=python)](https://requests.readthedocs.io/)
