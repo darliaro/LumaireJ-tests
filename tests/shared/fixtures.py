@@ -11,7 +11,10 @@ load_dotenv()
 @pytest.fixture(scope="session")
 def base_url() -> str:
     """Return the base URL for API and UI."""
-    return os.getenv("BASE_URL", "").rstrip("/")
+    url = os.getenv("BASE_URL", "").rstrip("/")
+    if not url:
+        pytest.skip("BASE_URL environment variable is not set")
+    return url
 
 
 @pytest.fixture(scope="session")
