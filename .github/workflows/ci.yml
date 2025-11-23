@@ -45,7 +45,7 @@ jobs:
       - name: Setup PDM for SUT
         uses: pdm-project/setup-pdm@v4
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
       - name: Install SUT deps
         working-directory: app
@@ -67,14 +67,18 @@ jobs:
       - name: Cache test PDM & venv
         uses: actions/cache@v4
         with:
-          key: pdm-test-${{ runner.os }}-${{ hashFiles('tests/pdm.lock') }}
+          key: pdm-test-${{ runner.os }}-${{ hashFiles('pdm.lock') }}
           restore-keys: pdm-test-
           path: |
             ~/.cache/pdm
-            tests/.venv
+            .venv
+
+      - name: Setup PDM for tests
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: '3.14'
 
       - name: Install test deps
-        working-directory: tests
         run: pdm install -G dev
 
       - name: Install Playwright browsers
