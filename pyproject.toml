@@ -24,7 +24,7 @@ testpaths = ["tests"]
 addopts = "-sv --alluredir=allure-results --cov=tests --cov-report=xml"
 markers = [
     "smoke: smoke tests",
-    "regression: resression tests",
+    "regression: regression tests",
     "api: API suite",
     "e2e: E2E scenario",
     "journal: journal functionality tests"
