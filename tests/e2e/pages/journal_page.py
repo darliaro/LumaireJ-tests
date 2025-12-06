@@ -2,6 +2,8 @@
 
 from playwright.sync_api import Page, expect
 
+from tests.shared.constants import DEFAULT_TIMEOUT_MS
+
 
 class JournalPage:
     """Page Object Model for the journaling page."""
@@ -36,13 +38,13 @@ class JournalPage:
     def expect_success(self) -> None:
         """Assert that a success message appears."""
         locator = self.page.locator(self.RESPONSE)
-        expect(locator).to_contain_text("Saved", timeout=5000)
+        expect(locator).to_contain_text("Saved", timeout=DEFAULT_TIMEOUT_MS)
 
     def get_response_text(self) -> str:
         """Get the text from the response element."""
         response_locator = self.page.locator(self.RESPONSE)
 
-        response_locator.wait_for(state="visible", timeout=5000)
+        response_locator.wait_for(state="visible", timeout=DEFAULT_TIMEOUT_MS)
 
         text = response_locator.text_content() or ""
         return text

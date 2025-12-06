@@ -4,6 +4,8 @@ from typing import Any
 
 import requests
 
+from tests.shared.constants import API_REQUEST_TIMEOUT_SEC
+
 
 class APIClient:
     """Simple client for API endpoints."""
@@ -19,6 +21,6 @@ class APIClient:
             payload["mood"] = mood
 
         url: str = f"{self.base_url}/journal"
-        response = requests.post(url, json=payload)
+        response = requests.post(url, json=payload, timeout=API_REQUEST_TIMEOUT_SEC)
         response.raise_for_status()
         return response.json()
