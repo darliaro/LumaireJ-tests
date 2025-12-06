@@ -38,6 +38,33 @@ The framework is designed to run independently via **GitHub Actions dispatch wor
 
 ---
 
+### Environment Variables
+
+The following environment variables are required for running tests:
+
+| Variable | Description | Required | Default | Example |
+|----------|-------------|----------|---------|---------|
+| `BASE_URL` | Base URL for the application (API and UI) | Yes | - | `http://localhost:8000` |
+| `CI` | Set to `true` or `1` when running in CI environment | No | `false` | `true` |
+| `DATABASE_URL` | Database connection string (for CI/CD) | Yes (CI only) | - | `postgresql://user:pass@localhost/db` |
+
+#### Local Development Setup
+
+Create a `.env` file in the project root:
+
+```bash
+BASE_URL=http://localhost:8000
+CI=false
+```
+
+#### CI/CD Setup
+
+These variables should be configured as GitHub Secrets:
+- `BASE_URL`: The base URL where the SUT is accessible
+- `DATABASE_URL`: Database connection string for the test environment
+
+---
+
 ### Running Tests Locally
 
 #### All Tests
